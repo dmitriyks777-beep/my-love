@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для моей самой любимой ❤️</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
+            color: #4a4a4a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        h1 {
+            color: #ff4d6d;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .heart {
+            font-size: 50px;
+            color: #ff4d6d;
+            animation: heartbeat 1.2s infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            20% { transform: scale(1.1); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.15); }
+            80% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Интерактивные кнопки */
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            position: relative;
+            height: 50px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+            background-color: #ff758f;
+        }
+
+        #noBtn {
+            background-color: #8d99ae;
+            color: white;
+            position: absolute;
+        }
+
+        /* Эффект падающих сердечек */
+        .falling-heart {
+            position: fixed;
+            top: -20px;
+            color: #ffb3c1;
+            font-size: 20px;
+            pointer-events: none;
+            animation: fall linear forwards;
+            z-index: 999;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="mainCard">
+        <div class="heart">❤️</div>
+        <h1 id="title">Ты самая лучшая!</h1>
+        <p id="text">Я очень рад, что ты есть в моей жизни. Каждая минута с тобой — особенная. Ответишь мне на один вопрос?</p>
+        
+        <div class="buttons-container">
+            <button id="yesBtn">Да!</button>
+            <button id="noBtn" style="left: 60%;">Нет</button>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const title = document.getElementById('title');
+        const text = document.getElementById('text');
+        const mainCard = document.getElementById('mainCard');
+
+        // Логика для убегающей кнопки "Нет"
+        noBtn.addEventListener('mouseover', () => {
+            const cardWidth = mainCard.offsetWidth;
+            const cardHeight = mainCard.offsetHeight;
+            
+            // Генерируем случайные координаты внутри карточки, но подальше от центра
+            const newX = Math.random() * (cardWidth - noBtn.offsetWidth - 20) + 10;
+            const newY = Math.random() * (cardHeight - noBtn.offsetHeight - 20) + 10;
+
+            noBtn.style.left = `${newX}px`;
+            noBtn.style.top = `${newY}px`;
+        });
+
+        // Если она все-таки умудрилась нажать "Нет" (например, с телефона)
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+        });
+
+        // Действие при нажатии на "Да"
+        yesBtn.addEventListener('click', () => {
+            title.innerHTML = "Ура! 🥰";
+            text.innerHTML = "Я так и знал! Обещаю делать тебя счастливой каждый день. Спасибо, что ты у меня есть! ✨";
+            noBtn.style.display = 'none';
+            yesBtn.style.display = 'none';
+            
+            // Запускаем дождь из сердечек
+            setInterval(createHeart, 150);
+        });
+
+        // Функция для создания падающих сердечек
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('falling-heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            heart.style.fontSize = Math.random() * 15 + 15 + 'px';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
+
